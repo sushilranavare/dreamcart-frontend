@@ -1,6 +1,6 @@
 /*
  * Global styles for the DreamCart frontend.
- */
+*/
 
 * {
     margin: 0;
@@ -59,4 +59,78 @@ footer {
     border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
+} 
+/*
+ * Navigation bar styles.
+ */
+
+.navbar {
+    min-height: 70px;
+    padding: 0 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: #111827;
+    color: white;
+}
+
+/*
+ * DreamCart brand.
+ */
+
+.navbar-brand {
+    color: white;
+    text-decoration: none;
+
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/*
+ * Main navigation links.
+ */
+
+.navbar-links {
+    display: flex;
+    gap: 30px;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.navbar-links a:hover {
+    text-decoration: underline;
+}
+
+/*
+ * Authentication links.
+ */
+
+.navbar-auth {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.navbar-auth a {
+    color: white;
+    text-decoration: none;
+}
+
+/*
+ * Register button.
+ */
+
+.register-button {
+    padding: 9px 16px;
+
+    border-radius: 6px;
+
+    background-color: white;
+    color: #111827 !important;
 }
