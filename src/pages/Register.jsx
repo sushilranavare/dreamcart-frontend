@@ -4,6 +4,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 import authService from "../services/authService";
 
@@ -58,7 +59,7 @@ function Register() {
         try {
 
             const response =
-                await authService.register(
+                await register(
                     formData
                 );
 
@@ -71,7 +72,7 @@ function Register() {
              * Backend registration also returns a JWT.
              * We can store it and automatically log the user in.
              */
-            if (response.token) {
+            /* if (response.token) {
 
                 localStorage.setItem(
                     "token",
@@ -91,7 +92,7 @@ function Register() {
                     navigate("/login");
 
                 }, 1000);
-            }
+            } */
 
         } catch (error) {
 

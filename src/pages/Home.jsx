@@ -4,7 +4,6 @@
 import { Link } from "react-router-dom";
 import CategoryCard from "../components/CategoryCard";
 import ProductCard from "../components/ProductCard";
-import CategoryService from "../services/categoryService.js";
 import {useEffect, useState} from "react";
 import categoryService from "../services/categoryService.js";
 
@@ -29,7 +28,7 @@ function Home(){
                 setLoading(false);
             }
         };
-        loadCategories();
+      void  loadCategories();
     }, []);
     return (
         <div className="home-page">

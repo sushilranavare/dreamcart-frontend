@@ -10,19 +10,28 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import authService from "../services/authService";
+import { useAuth } from "../context/AuthContext";
+
 
 function Login() {
 
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState("");
+    // Get the login function from AuthContext
+    const { login } = useAuth();
 
-    const [password, setPassword] = useState("");
 
-    const [error, setError] = useState("");
+    const [email, setEmail] =
+        useState("");
 
-    const [loading, setLoading] = useState(false);
+    const [password, setPassword] =
+        useState("");
+
+    const [error, setError] =
+        useState("");
+
+    const [loading, setLoading] =
+        useState(false);
 
 
     const handleSubmit = async (event) => {
@@ -35,7 +44,7 @@ function Login() {
 
         try {
 
-            await authService.login(
+            await login(
                 email,
                 password
             );
@@ -47,19 +56,39 @@ function Login() {
              */
             navigate("/");
 
+        // } catch (error) {
+        //
+        //     console.error(
+        //         "Login failed:",
+        //         error
+        //     );
+        //
+        //     setError(
+        //         error.response?.data?.message ||
+        //         "Login failed. Please check your credentials."
+        //     );
+        //
+        // }
         } catch (error) {
 
-            console.error(
-                "Login failed:",
+            console.log("STATUS:", error.response?.status);
+
+            console.log(
+                "BACKEND RESPONSE:",
+                error.response?.data
+            );
+
+            console.log(
+                "FULL ERROR:",
                 error
             );
 
             setError(
                 error.response?.data?.message ||
-                "Login failed. Please check your credentials."
+                "Login failed"
             );
 
-        } finally {
+        }finally {
 
             setLoading(false);
         }
@@ -130,14 +159,19 @@ function Login() {
 
                     </button>
 
+
                     <p className="auth-link">
+
                         Don't have an account?{" "}
 
                         <span
-                            onClick={() => navigate("/register")}
+                            onClick={() =>
+                                navigate("/register")
+                            }
                         >
-        Register
-    </span>
+                            Register
+                        </span>
+
                     </p>
 
                 </form>
@@ -148,5 +182,6 @@ function Login() {
 
     );
 }
+
 
 export default Login;
