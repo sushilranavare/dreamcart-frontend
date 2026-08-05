@@ -10,7 +10,10 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Cart from "../pages/Cart";
 import Wishlist from "../pages/Wishlist";
-import Products from "../pages/Products.jsx";
+import Products from "../pages/Products";
+import AdminCreateProduct from "../pages/AdminCreateProduct";
+import AdminDashboard from "../pages/AdminDashboard.jsx";
+import AdminRoute from "../components/AdminRoute.jsx";
 
 function AppRoutes(){
     return(
@@ -51,7 +54,23 @@ function AppRoutes(){
 
                 </Route>
 
-            </Routes>
+                <Route
+                    path="/admin/products/create"
+                    element={
+                        <AdminCreateProduct />
+                    }
+                />
+
+                <Route element={<AdminRoute />}>
+                <Route
+                    path="/admin"
+                    element={
+                    <AdminDashboard/>
+                    }
+                    />
+                </Route>
+
+            </Routes>   
         </BrowserRouter>
     );
 }

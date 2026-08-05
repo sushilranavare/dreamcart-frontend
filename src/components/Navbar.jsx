@@ -4,8 +4,15 @@
  */
 
 import { Link } from "react-router-dom";
+import {useAuth} from "../context/AuthContext.jsx";
 
 function Navbar() {
+    const {
+        isAuthenticated,
+        role,
+        logout
+    } = useAuth();
+
     return (
         <nav className="navbar">
 
@@ -25,34 +32,54 @@ function Navbar() {
                     Products
                 </Link>
 
-                <Link to="/wishlist">
-                    Wishlist
-                </Link>
+                {isAuthenticated && (
 
-                <Link to="/cart">
-                    Cart
-                </Link>
+                    <Link to="/wishlist">
+                        Wishlist
+                    </Link>
+                )}
+
+                {isAuthenticated && (
+                    <Link to="/cart">
+                        Cart
+                    </Link>
+                )}
+
+                {role === "ADMIN" && (
+                    <Link to="/admin">
+                        Admin Dashboard
+                    </Link>
+                )}
 
             </div>
 
             {/* Authentication Links */}
             <div className="navbar-auth">
+                {!isAuthenticated ? (
+                    <>
+                        <Link to="/login">
+                            Login
+                        </Link>
 
-                <Link to="/login">
-                    Login
-                </Link>
+                        <Link
+                            to="/register"
+                            className="register-button"
+                        >
+                            Register
+                        </Link>
+                    </>
+                ) : (
+                    <button
+                        onClick={logout}
+                    >
+                        Logout
+                    </button>
 
-                <Link
-                    to="/register"
-                    className="register-button"
-                >
-                    Register
-                </Link>
-
+                )}
             </div>
-
         </nav>
     );
 }
+
 
 export default Navbar;
