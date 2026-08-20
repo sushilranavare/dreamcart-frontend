@@ -1,79 +1,54 @@
-/*
- * Reusable product card component.
- *
- * Displays product image, name, price,
- * description, and stock information.
- */
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import cartService from "../services/cartService";
 
 function ProductCard({ product }) {
-
-    console.log("PRODUCT CARD DATA:", product);
-    console.log("IMAGE URL FROM API:", product.imageUrl);
+    const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
 
     let imageUrl = null;
-    if (product.imageUrl){
-        // If it's just a raw filename like abc.jpg , prepend the correct folder path
-        if (!product.imageUrl.startsWith('/')){
+    if (product.imageUrl) {
+        if (!product.imageUrl.startsWith('/')) {
             imageUrl = `http://localhost:8080/uploads/products/${product.imageUrl}`;
+        } else {
+            imageUrl = `http://localhost:8080${product.imageUrl}`;
         }
-        else {
-            // If it already has the path
-            imageUrl =`http://localhost:8080${product.imageUrl}`;
-        }
-        console.log("FINAL IMAGE URL:", imageUrl);
-
     }
 
+    // This function MUST be inside the ProductCard component
+    const handleAddToCart = async () => {
+        if (!isAuthenticated) {
+            navigate("/login");
+            return;
+        }
 
+        try {
+            await cartService.addToCart(product.id, 1);
+            alert(`${product.name} added to cart!`);
+        } catch (error) {
+            console.error("Failed to add to cart:", error);
+            alert("Could not add item to cart. Please try again.");
+        }
+    };
 
     return (
         <div className="product-card">
-
             <div className="product-image-container">
-
                 {imageUrl ? (
-
                     <img
                         src={imageUrl}
                         alt={product.name}
                         className="product-image"
-                        onLoad={() => {
-                            console.log(
-                                "IMAGE LOADED:",
-                                imageUrl
-                            );
-                        }}
-                        onError={(event) => {
-                            console.error(
-                                "IMAGE FAILED:",
-                                event.currentTarget.src
-                            );
-                        }}
                     />
-
                 ) : (
-
-                    <div className="no-image">
-                        No Image
-                    </div>
-
+                    <div className="no-image">No Image</div>
                 )}
-
             </div>
 
             <div className="product-card-content">
-
-                <h3>
-                    {product.name}
-                </h3>
-
-                <p className="product-description">
-                    {product.description}
-                </p>
-
-                <p className="product-price">
-                    ${product.price}
-                </p>
+                <h3>{product.name}</h3>
+                <p className="product-description">{product.description}</p>
+                <p className="product-price">${Number(product.price).toFixed(2)}</p>
 
                 <p className="product-stock">
                     {product.stockQuantity > 0
@@ -82,8 +57,15 @@ function ProductCard({ product }) {
                     }
                 </p>
 
+                <button
+                    className="admin-btn admin-btn-primary"
+                    style={{ width: "100%", marginTop: "15px" }}
+                    onClick={handleAddToCart}
+                    disabled={product.stockQuantity < 1}
+                >
+                    {product.stockQuantity > 0 ? "Add to Cart" : "Out of Stock"}
+                </button>
             </div>
-
         </div>
     );
 }
