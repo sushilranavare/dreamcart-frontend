@@ -5,15 +5,33 @@
  * to the backend using multipart/form-data.
  */
 
-import { useEffect, useState } from "react";
+import {
+    useEffect,
+    useRef,
+    useState
+} from "react";
+
+import {
+    useNavigate
+} from "react-router-dom";
 
 import productService from "../services/productService";
 import categoryService from "../services/categoryService";
 
+
 function AdminCreateProduct() {
 
+    const navigate = useNavigate();
+
     /*
-     * Product form fields
+     * Reference to the file input.
+     * Used to clear the selected image after successful submission.
+     */
+    const imageInputRef = useRef(null);
+
+
+    /*
+     * Product form fields.
      */
     const [name, setName] =
         useState("");
@@ -32,21 +50,27 @@ function AdminCreateProduct() {
 
 
     /*
-     * Uploaded image file
+     * Selected product image.
      */
     const [image, setImage] =
         useState(null);
 
 
     /*
-     * Categories loaded from backend
+     * Categories loaded from the backend.
      */
     const [categories, setCategories] =
         useState([]);
 
 
+    /*
+     * Loading and error states.
+     */
     const [loading, setLoading] =
         useState(false);
+
+    const [categoriesLoading, setCategoriesLoading] =
+        useState(true);
 
     const [message, setMessage] =
         useState("");
@@ -56,7 +80,7 @@ function AdminCreateProduct() {
 
 
     /*
-     * Load categories from the backend
+     * Load categories when the page opens.
      */
     useEffect(() => {
 
@@ -79,6 +103,11 @@ function AdminCreateProduct() {
                 setError(
                     "Unable to load categories."
                 );
+
+            } finally {
+
+                setCategoriesLoading(false);
+
             }
         };
 
@@ -88,14 +117,42 @@ function AdminCreateProduct() {
 
 
     /*
-     * Handles image selection.
+     * Handles product image selection.
      */
     const handleImageChange = (event) => {
 
         const selectedImage =
-            event.target.files[0];
+            event.target.files?.[0];
+
+        if (!selectedImage) {
+
+            setImage(null);
+
+            return;
+        }
+
+
+        /*
+         * Only allow image files.
+         */
+        if (!selectedImage.type.startsWith("image/")) {
+
+            setError(
+                "Please select a valid image file."
+            );
+
+            setImage(null);
+
+            event.target.value = "";
+
+            return;
+        }
+
+
+        setError("");
 
         setImage(selectedImage);
+
     };
 
 
@@ -106,11 +163,25 @@ function AdminCreateProduct() {
 
         event.preventDefault();
 
-        setLoading(true);
-
         setMessage("");
 
         setError("");
+
+
+        /*
+         * Make sure an image has been selected.
+         */
+        if (!image) {
+
+            setError(
+                "Please select a product image."
+            );
+
+            return;
+        }
+
+
+        setLoading(true);
 
 
         try {
@@ -123,71 +194,78 @@ function AdminCreateProduct() {
 
 
             /*
-             * Product data must be sent
-             * as JSON inside the "product" part.
+             * Product information.
+             *
+             * This object is converted to JSON and
+             * sent as the "product" multipart part.
              */
             const productData = {
 
-                name: name,
+                name: name.trim(),
 
-                description: description,
+                description:
+                    description.trim(),
 
-                price: Number(price),
+                price:
+                    Number(price),
 
                 stockQuantity:
                     Number(stockQuantity),
 
                 categoryId:
                     Number(categoryId)
+
             };
 
 
+            /*
+             * Add product JSON as an application/json part.
+             */
             formData.append(
 
                 "product",
 
                 new Blob(
-
                     [
                         JSON.stringify(
                             productData
                         )
                     ],
-
                     {
-                        type:
-                            "application/json"
+                        type: "application/json"
                     }
                 )
+
             );
 
 
             /*
-             * Add the image file.
+             * Add the image file as the "image" part.
              */
             formData.append(
-
                 "image",
-
                 image
             );
 
 
             /*
-             * Send data to backend.
+             * Send multipart request to backend.
              */
             await productService.createProduct(
                 formData
             );
 
 
+            /*
+             * Show success message.
+             */
             setMessage(
                 "Product created successfully!"
             );
 
 
             /*
-             * Clear the form.
+             * Clear form fields.
              */
             setName("");
 
@@ -202,6 +280,16 @@ function AdminCreateProduct() {
             setImage(null);
 
 
+            /*
+             * Clear the actual file input.
+             */
+            if (imageInputRef.current) {
+
+                imageInputRef.current.value = "";
+
+            }
+
+
         } catch (error) {
 
             console.error(
@@ -209,228 +297,306 @@ function AdminCreateProduct() {
                 error
             );
 
+
             setError(
+
                 error.response?.data?.message ||
+
                 "Failed to create product."
+
             );
 
         } finally {
 
             setLoading(false);
+
         }
+
     };
 
 
     return (
 
-        <div className="admin-create-product">
+        <div className="admin-product-page">
 
-            <h1>
-                Create Product
-            </h1>
+            <div className="admin-product-container">
 
 
-            {message && (
+                {/* Page heading */}
 
-                <p className="success-message">
+                <h1>
+                    Create Product
+                </h1>
 
-                    {message}
 
+                <p className="admin-product-subtitle">
+                    Add a new product to the DreamCart catalogue.
                 </p>
 
-            )}
+
+                {/* Success message */}
+
+                {message && (
+
+                    <div className="form-success">
+
+                        {message}
+
+                    </div>
+
+                )}
 
 
-            {error && (
+                {/* Error message */}
 
-                <p className="error-message">
+                {error && (
 
-                    {error}
+                    <div className="form-error">
 
-                </p>
+                        {error}
 
-            )}
+                    </div>
 
-
-            <form
-                onSubmit={handleSubmit}
-            >
-
-                <label>
-                    Product Name
-                </label>
-
-                <input
-
-                    type="text"
-
-                    value={name}
-
-                    onChange={(event) =>
-                        setName(
-                            event.target.value
-                        )
-                    }
-
-                    required
-
-                />
+                )}
 
 
-                <label>
-                    Description
-                </label>
+                {/* Product form */}
 
-                <textarea
-
-                    value={description}
-
-                    onChange={(event) =>
-                        setDescription(
-                            event.target.value
-                        )
-                    }
-
-                />
-
-
-                <label>
-                    Price
-                </label>
-
-                <input
-
-                    type="number"
-
-                    step="0.01"
-
-                    min="0"
-
-                    value={price}
-
-                    onChange={(event) =>
-                        setPrice(
-                            event.target.value
-                        )
-                    }
-
-                    required
-
-                />
-
-
-                <label>
-                    Stock Quantity
-                </label>
-
-                <input
-
-                    type="number"
-
-                    min="0"
-
-                    value={stockQuantity}
-
-                    onChange={(event) =>
-                        setStockQuantity(
-                            event.target.value
-                        )
-                    }
-
-                    required
-
-                />
-
-
-                <label>
-                    Category
-                </label>
-
-                <select
-
-                    value={categoryId}
-
-                    onChange={(event) =>
-                        setCategoryId(
-                            event.target.value
-                        )
-                    }
-
-                    required
-
+                <form
+                    className="admin-product-form"
+                    onSubmit={handleSubmit}
                 >
 
-                    <option value="">
-                        Select category
-                    </option>
+
+                    {/* Product name */}
+
+                    <div className="form-group">
+
+                        <label>
+                            Product Name
+                        </label>
+
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(event) =>
+                                setName(
+                                    event.target.value
+                                )
+                            }
+                            placeholder="Enter product name"
+                            required
+                        />
+
+                    </div>
 
 
-                    {categories.map(
-                        (category) => (
+                    {/* Description */}
 
-                            <option
+                    <div className="form-group">
 
-                                key={
-                                    category.id
+                        <label>
+                            Description
+                        </label>
+
+                        <textarea
+                            value={description}
+                            onChange={(event) =>
+                                setDescription(
+                                    event.target.value
+                                )
+                            }
+                            placeholder="Enter product description"
+                            required
+                        />
+
+                    </div>
+
+
+                    {/* Price and stock */}
+
+                    <div className="form-row">
+
+
+                        {/* Price */}
+
+                        <div className="form-group">
+
+                            <label>
+                                Price
+                            </label>
+
+                            <input
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                value={price}
+                                onChange={(event) =>
+                                    setPrice(
+                                        event.target.value
+                                    )
                                 }
+                                placeholder="0.00"
+                                required
+                            />
 
-                                value={
-                                    category.id
+                        </div>
+
+
+                        {/* Stock */}
+
+                        <div className="form-group">
+
+                            <label>
+                                Stock Quantity
+                            </label>
+
+                            <input
+                                type="number"
+                                min="0"
+                                value={stockQuantity}
+                                onChange={(event) =>
+                                    setStockQuantity(
+                                        event.target.value
+                                    )
                                 }
+                                placeholder="0"
+                                required
+                            />
 
-                            >
+                        </div>
 
-                                {
-                                    category.name
+                    </div>
+
+
+                    {/* Category */}
+
+                    <div className="form-group">
+
+                        <label>
+                            Category
+                        </label>
+
+                        <select
+                            value={categoryId}
+                            onChange={(event) =>
+                                setCategoryId(
+                                    event.target.value
+                                )
+                            }
+                            required
+                            disabled={categoriesLoading}
+                        >
+
+                            <option value="">
+                                {categoriesLoading
+                                    ? "Loading categories..."
+                                    : "Select category"
                                 }
-
                             </option>
 
-                        )
-                    )}
 
-                </select>
+                            {categories.map(
+                                (category) => (
 
+                                    <option
+                                        key={category.id}
+                                        value={category.id}
+                                    >
 
-                <label>
-                    Product Image
-                </label>
+                                        {category.name}
 
-                <input
+                                    </option>
 
-                    type="file"
+                                )
+                            )}
 
-                    accept="image/*"
+                        </select>
 
-                    onChange={
-                        handleImageChange
-                    }
-
-                    required
-
-                />
+                    </div>
 
 
-                <button
+                    {/* Product image */}
 
-                    type="submit"
+                    <div className="form-group">
 
-                    disabled={loading}
+                        <label>
+                            Product Image
+                        </label>
 
-                >
+                        <div className="image-upload">
 
-                    {loading
-                        ? "Creating Product..."
-                        : "Create Product"
-                    }
+                            <input
+                                ref={imageInputRef}
+                                type="file"
+                                accept="image/*"
+                                onChange={
+                                    handleImageChange
+                                }
+                                required
+                            />
 
-                </button>
+                        </div>
 
-            </form>
+
+                        {image && (
+
+                            <small>
+                                Selected: {image.name}
+                            </small>
+
+                        )}
+
+                    </div>
+
+
+                    {/* Form buttons */}
+
+                    <div className="form-actions">
+
+
+                        <button
+                            type="button"
+                            className="admin-btn admin-btn-secondary"
+                            onClick={() =>
+                                navigate(
+                                    "/admin/products"
+                                )
+                            }
+                            disabled={loading}
+                        >
+                            Cancel
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            className="admin-btn admin-btn-primary"
+                            disabled={
+                                loading ||
+                                categoriesLoading
+                            }
+                        >
+
+                            {loading
+                                ? "Creating Product..."
+                                : "Create Product"
+                            }
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
 
         </div>
 
     );
+
 }
+
 
 export default AdminCreateProduct;

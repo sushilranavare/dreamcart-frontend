@@ -753,3 +753,525 @@ footer {
     }
 
 }
+
+/* ==========================
+   Admin Products Header
+========================== */
+
+.admin-products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.admin-products-header h1 {
+    margin-bottom: 8px;
+}
+
+.admin-products-header p {
+    color: #64748b;
+}
+
+
+/* ==========================
+   Product Summary
+========================== */
+
+.admin-product-summary {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    background: white;
+
+    padding: 18px 22px;
+
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,.06);
+}
+
+
+/* ==========================
+   Table
+========================== */
+
+.admin-table-container {
+    background: white;
+
+    border-radius: 16px;
+
+    overflow-x: auto;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,.08);
+}
+
+.admin-products-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 900px;
+}
+
+.admin-products-table th {
+    background: #f8fafc;
+
+    color: #475569;
+
+    font-size: 14px;
+
+    text-align: left;
+
+    padding: 18px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-products-table td {
+    padding: 18px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    color: #334155;
+}
+
+.admin-products-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+
+/* ==========================
+   Product Image
+========================== */
+
+.admin-product-image {
+    width: 65px;
+    height: 65px;
+
+    object-fit: cover;
+
+    border-radius: 10px;
+
+    border: 1px solid #e2e8f0;
+}
+
+.admin-product-placeholder {
+    width: 65px;
+    height: 65px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f1f5f9;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+
+    border-radius: 10px;
+}
+
+
+/* ==========================
+   Product Name
+========================== */
+
+.admin-product-name {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.admin-product-name strong {
+    color: #1e293b;
+}
+
+.admin-product-name span {
+    color: #64748b;
+
+    font-size: 13px;
+
+    max-width: 250px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* ==========================
+   Stock
+========================== */
+
+.stock-available {
+    color: #15803d;
+
+    font-weight: 600;
+}
+
+.stock-out {
+    color: #dc2626;
+
+    font-weight: 600;
+}
+
+
+/* ==========================
+   Status
+========================== */
+
+.status-active {
+    background: #dcfce7;
+
+    color: #166534;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.status-inactive {
+    background: #fee2e2;
+
+    color: #991b1b;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* ==========================
+   Action Buttons
+========================== */
+
+.admin-actions {
+    display: flex;
+
+    gap: 8px;
+}
+
+.edit-button,
+.delete-button {
+    border: none;
+
+    padding: 8px 14px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    font-size: 13px;
+}
+
+.edit-button {
+    background: #dbeafe;
+
+    color: #1d4ed8;
+}
+
+.edit-button:hover {
+    background: #bfdbfe;
+}
+
+.delete-button {
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+.delete-button:hover {
+    background: #fecaca;
+}
+
+
+/* ==========================
+   Error
+========================== */
+
+.admin-error {
+    background: #fee2e2;
+
+    color: #991b1b;
+
+    padding: 14px 18px;
+
+    border-radius: 8px;
+
+    margin-bottom: 20px;
+}
+
+
+/* ==========================
+   Empty State
+========================== */
+
+.admin-empty {
+    background: white;
+
+    text-align: center;
+
+    padding: 70px 30px;
+
+    border-radius: 16px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,.08);
+}
+
+.admin-empty h2 {
+    margin-bottom: 10px;
+
+    color: #1e293b;
+}
+
+.admin-empty p {
+    color: #64748b;
+
+    margin-bottom: 25px;
+}
+
+/* =========================================
+   Admin Product Form
+   ========================================= */
+
+.admin-product-page {
+    min-height: calc(100vh - 80px);
+    padding: 40px 60px;
+    background: #f5f7fb;
+}
+
+.admin-product-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 35px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.admin-product-container h1 {
+    margin: 0 0 10px;
+    font-size: 30px;
+    color: #1f2937;
+}
+
+.admin-product-subtitle {
+    margin-bottom: 30px;
+    color: #6b7280;
+}
+
+
+/* =========================================
+   Form
+   ========================================= */
+
+.admin-product-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+
+    font-size: 15px;
+    background: #ffffff;
+
+    transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+
+/* =========================================
+   Two-column layout
+   ========================================= */
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+
+/* =========================================
+   Image upload
+   ========================================= */
+
+.image-upload {
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 20px;
+    background: #f9fafb;
+}
+
+.image-upload input {
+    border: none;
+    padding: 0;
+    background: transparent;
+}
+
+
+/* =========================================
+   Buttons
+   ========================================= */
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.admin-btn {
+    border: none;
+    border-radius: 7px;
+    padding: 11px 22px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+            background 0.2s ease,
+            transform 0.1s ease;
+}
+
+.admin-btn:hover {
+    transform: translateY(-1px);
+}
+
+.admin-btn-primary {
+    background: #2563eb;
+    color: white;
+}
+
+.admin-btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.admin-btn-secondary {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.admin-btn-secondary:hover {
+    background: #d1d5db;
+}
+
+
+/* =========================================
+   Messages
+   ========================================= */
+
+.form-error {
+    padding: 12px 15px;
+    border-radius: 7px;
+
+    background: #fee2e2;
+    color: #b91c1c;
+
+    font-size: 14px;
+}
+
+.form-success {
+    padding: 12px 15px;
+    border-radius: 7px;
+
+    background: #dcfce7;
+    color: #166534;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   Loading
+   ========================================= */
+
+.form-loading {
+    text-align: center;
+    padding: 40px;
+    color: #6b7280;
+}
+
+
+/* =========================================
+   Mobile
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    .admin-product-page {
+        padding: 25px 15px;
+    }
+
+    .admin-product-container {
+        padding: 25px 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .admin-btn {
+        width: 100%;
+    }
+}
+

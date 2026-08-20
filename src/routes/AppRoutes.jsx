@@ -14,6 +14,8 @@ import Products from "../pages/Products";
 import AdminCreateProduct from "../pages/AdminCreateProduct";
 import AdminDashboard from "../pages/AdminDashboard.jsx";
 import AdminRoute from "../components/AdminRoute.jsx";
+import AdminProducts from "../pages/AdminProducts";
+import AdminEditProduct from "../pages/AdminEditProduct";
 
 function AppRoutes(){
     return(
@@ -61,6 +63,13 @@ function AppRoutes(){
                     }
                 />
 
+                <Route
+                    path="/admin/products/edit/:id"
+                    element={
+                        <AdminEditProduct />
+                    }
+                />
+
                 <Route element={<AdminRoute />}>
                 <Route
                     path="/admin"
@@ -69,6 +78,16 @@ function AppRoutes(){
                     }
                     />
                 </Route>
+
+                <Route
+                    path="/admin"
+                    element={<AdminDashboard />}
+                />
+
+                <Route
+                    path="/admin/products"
+                    element={<AdminProducts />}
+                />
 
             </Routes>   
         </BrowserRouter>

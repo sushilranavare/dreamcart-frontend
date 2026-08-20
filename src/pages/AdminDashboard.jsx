@@ -5,7 +5,7 @@
  */
 
 import { useAuth } from "../context/AuthContext";
-
+import { Link } from "react-router-dom";
 
 function AdminDashboard() {
 
@@ -41,9 +41,12 @@ function AdminDashboard() {
                         Manage products and inventory.
                     </p>
 
-                    <button>
+                    <Link
+                        to="/admin/products"
+                        className="dashboard-button"
+                    >
                         Manage Products
-                    </button>
+                    </Link>
 
                 </div>
 
