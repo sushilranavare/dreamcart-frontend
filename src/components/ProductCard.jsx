@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import cartService from "../services/cartService";
+import wishlistService from "../services/wishlistService";
 
 function ProductCard({ product }) {
     const navigate = useNavigate();
@@ -30,6 +31,20 @@ function ProductCard({ product }) {
             alert("Could not add item to cart. Please try again.");
         }
     };
+    const handleAddToWishlist = async () => {
+        if (!isAuthenticated) {
+            navigate("/login");
+            return;
+        }
+
+        try {
+            await wishlistService.addToWishlist(product.id);
+            alert(`${product.name} added to your wishlist! ❤️`);
+        } catch (error) {
+            console.error("Failed to add to wishlist:", error);
+            alert("Could not add item to wishlist. It might already be there.");
+        }
+    };
 
     return (
         <div className="product-card">
@@ -57,6 +72,16 @@ function ProductCard({ product }) {
                     }
                 </p>
 
+                {/* Button Container */}
+                <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
+                    <button
+                        className="admin-btn admin-btn-secondary"
+                        style={{ flex: 1, padding: '10px' }}
+                        onClick={handleAddToWishlist}
+                    >
+                        ❤️ Save
+                    </button>
+
                 <button
                     className="admin-btn admin-btn-primary"
                     style={{ width: "100%", marginTop: "15px" }}
@@ -65,6 +90,7 @@ function ProductCard({ product }) {
                 >
                     {product.stockQuantity > 0 ? "Add to Cart" : "Out of Stock"}
                 </button>
+                </div>
             </div>
         </div>
     );
