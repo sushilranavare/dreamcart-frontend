@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import cartService from "../services/cartService";
 import wishlistService from "../services/wishlistService";
@@ -48,20 +48,27 @@ function ProductCard({ product }) {
 
     return (
         <div className="product-card">
-            <div className="product-image-container">
-                {imageUrl ? (
-                    <img
-                        src={imageUrl}
-                        alt={product.name}
-                        className="product-image"
-                    />
-                ) : (
-                    <div className="no-image">No Image</div>
-                )}
-            </div>
+            {/* Wrap image and title in a Link */}
+            <Link to={`/products/${product.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                <div className="product-image-container">
+                    {imageUrl ? (
+                        <img
+                            src={imageUrl}
+                            alt={product.name}
+                            className="product-image"
+                        />
+                    ) : (
+                        <div className="no-image">No Image</div>
+                    )}
+                </div>
 
-            <div className="product-card-content">
-                <h3>{product.name}</h3>
+                <div className="product-card-content" style={{ paddingBottom: '5px' }}>
+                    <h3 style={{ margin: '0' }}>{product.name}</h3>
+                </div>
+            </Link>
+
+            {/* Non-clickable details and buttons */}
+            <div className="product-card-content" style={{ paddingTop: '5px' }}>
                 <p className="product-description">{product.description}</p>
                 <p className="product-price">${Number(product.price).toFixed(2)}</p>
 
@@ -72,7 +79,6 @@ function ProductCard({ product }) {
                     }
                 </p>
 
-                {/* Button Container */}
                 <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
                     <button
                         className="admin-btn admin-btn-secondary"
@@ -82,14 +88,14 @@ function ProductCard({ product }) {
                         ❤️ Save
                     </button>
 
-                <button
-                    className="admin-btn admin-btn-primary"
-                    style={{ width: "100%", marginTop: "15px" }}
-                    onClick={handleAddToCart}
-                    disabled={product.stockQuantity < 1}
-                >
-                    {product.stockQuantity > 0 ? "Add to Cart" : "Out of Stock"}
-                </button>
+                    <button
+                        className="admin-btn admin-btn-primary"
+                        style={{ flex: 2, padding: '10px' }}
+                        onClick={handleAddToCart}
+                        disabled={product.stockQuantity < 1}
+                    >
+                        {product.stockQuantity > 0 ? "Add to Cart" : "Out of Stock"}
+                    </button>
                 </div>
             </div>
         </div>

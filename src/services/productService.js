@@ -45,6 +45,7 @@ const productService = {
             );
         return response.data;
     },
+    
 
     /*
     * Create a new product.
