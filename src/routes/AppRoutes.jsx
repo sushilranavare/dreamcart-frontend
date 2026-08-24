@@ -17,6 +17,11 @@ import AdminRoute from "../components/AdminRoute.jsx";
 import AdminProducts from "../pages/AdminProducts";
 import AdminEditProduct from "../pages/AdminEditProduct";
 import ProductDetails from "../pages/ProductDetails";
+import Checkout from "../pages/Checkout";
+import PrivateRoute from "../components/PrivateRoute";
+import Orders from "../pages/Orders";
+
+// (Make sure the path and name match your actual file)
 
 function AppRoutes(){
     return(
@@ -91,6 +96,9 @@ function AppRoutes(){
                 />
                 <Route path="/products/:id" element={<ProductDetails />} />
 
+                <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
+
+                <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
             </Routes>   
         </BrowserRouter>
     );
