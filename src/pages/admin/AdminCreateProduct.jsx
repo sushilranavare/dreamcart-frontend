@@ -15,8 +15,8 @@ import {
     useNavigate
 } from "react-router-dom";
 
-import productService from "../services/productService";
-import categoryService from "../services/categoryService";
+import productService from "../../services/productService.js";
+import categoryService from "../../services/categoryService.js";
 
 
 function AdminCreateProduct() {

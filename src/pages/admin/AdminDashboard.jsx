@@ -4,7 +4,7 @@
  * This page is accessible only to users with the ADMIN role.
  */
 
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext.jsx";
 import { Link } from "react-router-dom";
 
 function AdminDashboard() {

@@ -11,16 +11,19 @@ import Register from "../pages/Register";
 import Cart from "../pages/Cart";
 import Wishlist from "../pages/Wishlist";
 import Products from "../pages/Products";
-import AdminCreateProduct from "../pages/AdminCreateProduct";
-import AdminDashboard from "../pages/AdminDashboard.jsx";
+import AdminCreateProduct from "../pages/admin/AdminCreateProduct.jsx";
+import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
 import AdminRoute from "../components/AdminRoute.jsx";
-import AdminProducts from "../pages/AdminProducts";
-import AdminEditProduct from "../pages/AdminEditProduct";
+import AdminProducts from "../pages/admin/AdminProducts.jsx";
+import AdminEditProduct from "../pages/admin/AdminEditProduct.jsx";
 import ProductDetails from "../pages/ProductDetails";
 import Checkout from "../pages/Checkout";
 import PrivateRoute from "../components/PrivateRoute";
 import Orders from "../pages/Orders";
+import AdminOrders from "../pages/admin/AdminOrders.jsx";
+//import EditProduct from "../pages/admin/EditProduct";
 
+// Adjust path depending on where you saved it!
 // (Make sure the path and name match your actual file)
 
 function AppRoutes(){
@@ -99,7 +102,10 @@ function AppRoutes(){
                 <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
 
                 <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
-            </Routes>   
+
+                <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
+
+            </Routes>
         </BrowserRouter>
     );
 }

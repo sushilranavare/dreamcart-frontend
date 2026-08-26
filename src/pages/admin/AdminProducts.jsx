@@ -9,8 +9,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import productService from "../services/productService";
-import "../index.css";
+import productService from "../../services/productService.js";
+import "../../index.css";
 
 
 function AdminProducts() {
@@ -294,28 +294,33 @@ function AdminProducts() {
 
                                     {/* Image */}
 
-                                    <td>
-
-                                        {product.imageUrl ? (
-
-                                            <img
-                                                src={
-                                                    product.imageUrl
+                                    {/* Find this part inside your table body's map loop: */}
+                                    <td style={{ padding: '12px' }}>
+                                        {(() => {
+                                            let imageUrl = null;
+                                            if (product.imageUrl) {
+                                                // Check if it's already a full URL, or if it needs the backend host prepended
+                                                if (product.imageUrl.startsWith('http')) {
+                                                    imageUrl = product.imageUrl;
+                                                } else if (product.imageUrl.startsWith('/')) {
+                                                    imageUrl = `http://localhost:8080${product.imageUrl}`;
+                                                } else {
+                                                    imageUrl = `http://localhost:8080/uploads/products/${product.imageUrl}`;
                                                 }
-                                                alt={
-                                                    product.name
-                                                }
-                                                className="admin-product-image"
-                                            />
+                                            }
 
-                                        ) : (
-
-                                            <div className="admin-product-placeholder">
-                                                No Image
-                                            </div>
-
-                                        )}
-
+                                            return imageUrl ? (
+                                                <img
+                                                    src={imageUrl}
+                                                    alt={product.name}
+                                                    style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }}
+                                                />
+                                            ) : (
+                                                <div style={{ width: '50px', height: '50px', backgroundColor: '#e5e7eb', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>
+                                                    No Img
+                                                </div>
+                                            );
+                                        })()}
                                     </td>
 
 
