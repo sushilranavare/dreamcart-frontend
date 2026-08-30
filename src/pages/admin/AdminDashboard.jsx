@@ -80,9 +80,10 @@ function AdminDashboard() {
                         View registered users.
                     </p>
 
-                    <button>
+                    <Link to="/admin/users"
+                          className="dashboard-button">
                         Manage Users
-                    </button>
+                    </Link>
 
                 </div>
 

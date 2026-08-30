@@ -24,6 +24,7 @@ import AdminOrders from "../pages/admin/AdminOrders.jsx";
 //import EditProduct from "../pages/admin/EditProduct";
 import Navbar from "../components/Navbar.jsx";
 import AdminCategories from "../pages/admin/AdminCategories.jsx";
+import AdminUsers from "../pages/admin/AdminUsers.jsx";
 
 // Adjust path depending on where you saved it!
 // (Make sure the path and name match your actual file)
@@ -108,7 +109,11 @@ function AppRoutes(){
                 <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
 
                 <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
+
                 <Route path="/admin/categories" element={<AdminCategories />} />
+
+                <Route path="/admin/users" element ={<AdminUsers />} />
+                <Route path="/admin/users/delete:id" element={<AdminUsers />}></Route>
 
              </Routes>
         </BrowserRouter>
