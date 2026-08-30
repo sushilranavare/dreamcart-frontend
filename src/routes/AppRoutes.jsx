@@ -70,50 +70,24 @@ function AppRoutes(){
 
                 </Route>
 
-                <Route
-                    path="/admin/products/create"
-                    element={
-                        <AdminCreateProduct />
-                    }
-                />
 
-                <Route
-                    path="/admin/products/edit/:id"
-                    element={
-                        <AdminEditProduct />
-                    }
-                />
-
-                <Route element={<AdminRoute />}>
-                <Route
-                    path="/admin"
-                    element={
-                    <AdminDashboard/>
-                    }
-                    />
-                </Route>
-
-                <Route
-                    path="/admin"
-                    element={<AdminDashboard />}
-                />
-
-                <Route
-                    path="/admin/products"
-                    element={<AdminProducts />}
-                />
                 <Route path="/products/:id" element={<ProductDetails />} />
 
                 <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
 
                 <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
 
-                <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
 
-                <Route path="/admin/categories" element={<AdminCategories />} />
 
-                <Route path="/admin/users" element ={<AdminUsers />} />
-                <Route path="/admin/users/delete:id" element={<AdminUsers />}></Route>
+                <Route element={<AdminRoute />}>
+                    <Route path="/admin" element={<AdminDashboard />} />
+                    <Route path="/admin/products" element={<AdminProducts />} />
+                    <Route path="/admin/products/create" element={<AdminCreateProduct />} />
+                    <Route path="/admin/products/edit/:id" element={<AdminEditProduct />} />
+                    <Route path="/admin/categories" element={<AdminCategories />} />
+                    <Route path="/admin/orders" element={<AdminOrders />} />
+                    <Route path="/admin/users" element={<AdminUsers />} />
+                </Route>
 
              </Routes>
         </BrowserRouter>
