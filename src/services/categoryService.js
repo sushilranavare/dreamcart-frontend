@@ -1,11 +1,27 @@
-/* This service handles all request related category API request. */
-
 import api from "./api.js";
 
-const getCategories = async () => {
-    const response = await api.get("/categories");
+const categoryService = {
+    // Used by AdminCategories.jsx
+    getAllCategories: async () => {
+        const response = await api.get("/categories");
+        return response.data;
+    },
 
-    return response.data;
+    createCategory: async (categoryData) => {
+        const response = await api.post("/categories", categoryData);
+        return response.data;
+    },
+
+    deleteCategory: async (id) => {
+        const response = await api.delete(`/categories/${id}`);
+        return response.data;
+    },
+
+    // Used by Home.jsx
+    getCategories: async () => {
+        const response = await api.get("/categories");
+        return response.data;
+    }
 };
 
-export default {getCategories};
+export default categoryService;

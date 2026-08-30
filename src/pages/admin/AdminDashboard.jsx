@@ -61,9 +61,11 @@ function AdminDashboard() {
                         Manage product categories.
                     </p>
 
-                    <button>
+                    <Link
+                        to="/admin/categories"
+                        className="dashboard-button">
                         Manage Categories
-                    </button>
+                    </Link>
 
                 </div>
 

@@ -2,7 +2,7 @@
 * This file defines all frontend routes for the DreamCart application.
 * */
 
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, Router} from "react-router-dom";
 
 import Home from "../pages/Home";
 import MainLayout from "../layouts/MainLayout";
@@ -22,13 +22,17 @@ import PrivateRoute from "../components/PrivateRoute";
 import Orders from "../pages/Orders";
 import AdminOrders from "../pages/admin/AdminOrders.jsx";
 //import EditProduct from "../pages/admin/EditProduct";
+import Navbar from "../components/Navbar.jsx";
+import AdminCategories from "../pages/admin/AdminCategories.jsx";
 
 // Adjust path depending on where you saved it!
 // (Make sure the path and name match your actual file)
 
 function AppRoutes(){
     return(
+
         <BrowserRouter>
+                <Navbar />
             <Routes>
                 {/* Customer-facing application layout */}
                 <Route element={<MainLayout />}>
@@ -104,9 +108,11 @@ function AppRoutes(){
                 <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
 
                 <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
+                <Route path="/admin/categories" element={<AdminCategories />} />
 
-            </Routes>
+             </Routes>
         </BrowserRouter>
+
     );
 }
 export default AppRoutes;

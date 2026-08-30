@@ -7,7 +7,6 @@ function MainLayout(){
     return(
         <div className="app-layout">
             {/* Main Navigation Bar*/}
-            <Navbar />
 
             {/* Page Content */}
 
