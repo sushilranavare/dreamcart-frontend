@@ -45,6 +45,12 @@ function Navbar() {
                     </Link>
                 )}
 
+                {isAuthenticated && (
+                    <Link to="/profile">
+                        Profile
+                    </Link>
+                )}
+
                 {role === "ADMIN" && (
                     <Link to="/admin">
                         Admin Dashboard

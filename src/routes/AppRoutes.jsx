@@ -25,6 +25,7 @@ import AdminOrders from "../pages/admin/AdminOrders.jsx";
 import Navbar from "../components/Navbar.jsx";
 import AdminCategories from "../pages/admin/AdminCategories.jsx";
 import AdminUsers from "../pages/admin/AdminUsers.jsx";
+import Profile from "../pages/Profile.jsx";
 
 // Adjust path depending on where you saved it!
 // (Make sure the path and name match your actual file)
@@ -77,6 +78,7 @@ function AppRoutes(){
 
                 <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
 
+                <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
 
 
                 <Route element={<AdminRoute />}>
