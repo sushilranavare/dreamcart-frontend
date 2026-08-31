@@ -68,6 +68,7 @@ function AppRoutes(){
                         path="/cart"
                         element={<Cart />}
                     />
+                    
 
                 </Route>
 
