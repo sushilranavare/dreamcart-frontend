@@ -1,4 +1,4 @@
-/*
+    /*
  * This page allows new users to create a DreamCart account.
  */
 
@@ -11,7 +11,7 @@ import authService from "../services/authService";
 function Register() {
 
     const navigate = useNavigate();
-
+    const { register } = useAuth();
     const [formData, setFormData] = useState({
 
         firstName: "",
