@@ -26,6 +26,56 @@ Backend repo: [dreamcart-backend](https://github.com/sushilranavare/dreamcart-ba
 - Admin dashboard: store statistics plus management of products, categories, users, and orders
 - Role-based route protection (private routes for authenticated users, admin-only routes for admins)
 
+## Architecture
+
+```mermaid
+graph TB
+    Browser["Browser"]
+
+    subgraph FE["Frontend container - Nginx :5173"]
+        SPA["React + Vite<br/>static build"]
+    end
+
+    subgraph BE["Backend container - Spring Boot :8080"]
+        Filter["JwtAuthenticationFilter<br/>+ Spring Security"]
+        Controllers["REST Controllers"]
+        Services["Service layer"]
+        Static["Static product images<br/>/uploads/products/**"]
+    end
+
+    DB[("PostgreSQL<br/>dreamcart_db")]
+
+    Browser -->|"loads SPA"| SPA
+    SPA -->|"Axios<br/>Authorization: Bearer JWT"| Filter
+    SPA -->|"img src - no JWT"| Static
+    Filter --> Controllers
+    Controllers --> Services
+    Services --> DB
+```
+
+## Login Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant B as Backend
+
+    U->>F: Submit login form
+    F->>B: POST /api/auth/login
+    B-->>F: token, role, message
+    F->>F: AuthContext stores token + role<br/>in localStorage
+    F-->>U: Redirect to home
+
+    Note over F,B: Every request afterwards
+    F->>B: Axios interceptor adds<br/>Authorization: Bearer token
+    B-->>F: Protected resource
+```
+
+Route access is guarded client-side by `PrivateRoute` (authenticated users) and `AdminRoute` (admins only), on top of the backend's own role checks.
+
+See the [backend README](https://github.com/sushilranavare/dreamcart-backend#key-flows) for the full checkout and payment flow diagram.
+
 ## Prerequisites
 
 - Node.js 20+
@@ -63,7 +113,7 @@ npm test
 
 ```
 src/
-├── pages/         Route-level page components
+├── pages/         Route-level page components (incl. admin/)
 ├── components/    Shared/reusable components (Navbar, route guards, etc.)
 ├── context/       Auth context (global authentication state)
 ├── services/      Axios-based API service modules
