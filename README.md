@@ -1,16 +1,72 @@
-# React + Vite
+# DreamCart — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The customer- and admin-facing web app for **DreamCart**, a full-stack e-commerce platform. Built with React and Vite.
 
-Currently, two official plugins are available:
+Backend repo: [dreamcart-backend](https://github.com/sushilranavare/dreamcart-backend)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
 
-## React Compiler
+- React 19
+- Vite
+- React Router v7
+- Axios (with JWT auto-attached via a request interceptor)
+- Context API for auth state
+- Vitest + React Testing Library (unit/component tests)
+- Docker (Nginx-served production build)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- User registration and login (JWT-based)
+- Product browsing and search, with category filtering
+- Product detail pages with reviews (write, edit, delete your own review; average rating shown)
+- Cart and wishlist
+- Checkout with saved/new shipping addresses and a simulated payment step
+- Order history
+- User profile (view/update details, change password)
+- Admin dashboard: store statistics plus management of products, categories, users, and orders
+- Role-based route protection (private routes for authenticated users, admin-only routes for admins)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Prerequisites
+
+- Node.js 20+
+- The backend API running (see [dreamcart-backend](https://github.com/sushilranavare/dreamcart-backend)) — this app expects it at `http://localhost:8080`
+
+## Running Locally
+
+```bash
+npm install
+npm run dev
+```
+
+The app runs at `http://localhost:5173`.
+
+## Running with Docker
+
+This app is built to run as part of the full stack via the backend repo's `docker-compose.yml`:
+
+```bash
+# from the dreamcart-backend directory
+docker compose up --build
+```
+
+This serves the production build through Nginx at `http://localhost:5173`. The compose file assumes `dreamcart-backend` and `dreamcart-frontend` are cloned as sibling directories.
+
+## Testing
+
+Run the test suite (Vitest + React Testing Library):
+
+```bash
+npm test
+```
+
+## Project Structure
+
+```
+src/
+├── pages/         Route-level page components
+├── components/    Shared/reusable components (Navbar, route guards, etc.)
+├── context/       Auth context (global authentication state)
+├── services/      Axios-based API service modules
+├── routes/        App route definitions
+└── test/          Test setup and configuration
+```
